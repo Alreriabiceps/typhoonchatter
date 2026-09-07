@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { TyphoonLogo } from './components/TyphoonLogo';
+import { Header } from './components/Header';
+import { CredibilityStrip } from './components/CredibilityStrip';
 import { OnlyFansLogo } from './components/OnlyFansLogo';
 import { ContactModal } from './components/ContactModal';
 
 const FACTS = [
-  { k: 'Pay', v: '$4–8/hr + 5–15%' },
   { k: 'Payouts', v: 'Weekly USD' },
   { k: 'Setup', v: '100% Remote' },
   { k: 'Shifts', v: '24/7 Coverage' },
@@ -14,7 +14,6 @@ const FACTS = [
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const headerRef = useRef<HTMLElement>(null);
   const heroCopyRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const heroMetaRef = useRef<HTMLDivElement>(null);
@@ -24,7 +23,7 @@ export default function App() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      tl.fromTo(headerRef.current, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.5 })
+      tl.fromTo('.js-brand', { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.06 })
         .fromTo(
           imageRef.current,
           { opacity: 0, y: 18 },
@@ -38,7 +37,13 @@ export default function App() {
           '-=0.45'
         )
         .fromTo(platformRef.current, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
-        .fromTo(heroMetaRef.current, { opacity: 0 }, { opacity: 1, duration: 0.45 }, '-=0.25');
+        .fromTo(heroMetaRef.current, { opacity: 0 }, { opacity: 1, duration: 0.45 }, '-=0.25')
+        .fromTo(
+          '.js-strip-item',
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.06 },
+          '-=0.2'
+        );
 
       gsap.to(imageRef.current, {
         y: -8,
@@ -65,29 +70,7 @@ export default function App() {
         <div className="absolute -top-24 left-0 w-72 h-72 bg-[rgba(0,175,240,0.07)] blur-3xl" />
       </div>
 
-      <header
-        ref={headerRef}
-        className="relative z-20 w-full border-b border-white/10 bg-black/40 shrink-0"
-      >
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-14 sm:h-16 flex items-center justify-between gap-4">
-          <TyphoonLogo />
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="hidden sm:flex items-center gap-2 border border-white/15 bg-black/40 px-3 py-1.5">
-              <span className="h-1.5 w-1.5 bg-[#00aff0]" />
-              <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-zinc-200">
-                Hiring · Remote
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="btn-ghost !py-2 !px-3 text-[10px]"
-            >
-              Apply
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header onApply={() => setIsModalOpen(true)} />
 
       <main className="relative z-10 flex-1 flex flex-col justify-center py-6 sm:py-8 lg:py-0">
         <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
@@ -143,7 +126,7 @@ export default function App() {
 
               <div
                 ref={heroMetaRef}
-                className="mt-6 sm:mt-7 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/10 border border-white/10"
+                className="mt-6 sm:mt-7 grid grid-cols-3 gap-px bg-white/10 border border-white/10"
               >
                 {FACTS.map((item) => (
                   <div key={item.k} className="bg-[#08090b]/90 px-3 py-3">
@@ -198,19 +181,7 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="relative z-20 w-full border-t border-white/10 bg-black/40 shrink-0">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <span className="meta-label">© {new Date().getFullYear()} Typhoon Agency</span>
-          <div className="flex items-center gap-2.5">
-            <span className="meta-label text-zinc-500">Partnered creators on</span>
-            <OnlyFansLogo compact className="opacity-90" />
-            <span className="font-display text-sm font-bold tracking-wide">
-              <span className="text-[#00AEEF]">Only</span>
-              <span className="text-[#008CCF]">Fans</span>
-            </span>
-          </div>
-        </div>
-      </footer>
+      <CredibilityStrip />
 
       <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
