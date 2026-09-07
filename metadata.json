@@ -1,0 +1,6 @@
+{
+  "name": "Typhoon Agency",
+  "description": "Typhoon Agency is hiring professional creator chatters and DM specialists. Work remotely managing chats for top creators with high commissions and weekly payouts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
