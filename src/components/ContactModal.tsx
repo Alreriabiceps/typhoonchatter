@@ -11,10 +11,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
   const [email, setEmail] = useState('');
   const [telegram, setTelegram] = useState('');
   const [experience, setExperience] = useState('');
+  const [timezone, setTimezone] = useState('');
+  const [hours, setHours] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Close on escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -33,10 +34,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email) return;
+    if (!name || !email || !telegram) return;
 
     setIsSubmitting(true);
-    // Swift simulated processing
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
@@ -51,112 +51,107 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
       setEmail('');
       setTelegram('');
       setExperience('');
+      setTimezone('');
+      setHours('');
     }, 300);
   };
 
   return (
     <div
       id="contact-modal-overlay"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md transition-opacity duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/88 backdrop-blur-[3px]"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div
         id="contact-modal-dialog"
-        className="relative w-full max-w-lg bg-[#0d0f14] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-[0_0_60px_-15px_rgba(0,175,240,0.25)] text-white overflow-hidden"
+        className="relative w-full max-w-xl bg-[#0c0e12] border border-white/15 text-white overflow-hidden max-h-[90vh] overflow-y-auto"
       >
-        {/* Subtle top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00aff0] to-transparent opacity-80" />
+        <div className="h-[3px] w-full bg-[#00aff0]" />
 
-        {/* Close Button */}
         <button
           id="close-modal-btn"
           type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+          className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-white/10"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
         </button>
 
         {isSuccess ? (
-          <div className="py-8 text-center flex flex-col items-center">
-            <div className="w-14 h-14 rounded-full bg-[#00aff0]/10 border border-[#00aff0]/30 flex items-center justify-center mb-4 text-[#00aff0]">
-              <CheckCircle2 className="w-8 h-8" />
+          <div className="px-6 sm:px-8 py-12 text-center flex flex-col items-center">
+            <div className="w-12 h-12 border border-[#00aff0]/40 bg-[#00aff0]/10 flex items-center justify-center mb-5 text-[#00aff0]">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
-            <h3 className="text-2xl font-bold tracking-tight text-white mb-2">
-              APPLICATION RECEIVED
+            <p className="meta-label text-[#00aff0] mb-2">Status</p>
+            <h3 className="font-display text-3xl font-bold uppercase tracking-wide text-white mb-3">
+              Application received
             </h3>
-            <p className="text-sm text-zinc-400 max-w-xs mb-6">
-              Our chatter recruitment manager will review your submission and contact you via Telegram/Email within 24 hours.
+            <p className="text-sm text-zinc-400 max-w-sm mb-8 leading-relaxed">
+              Recruiting will review your submission and reach out via Telegram or email within 24
+              hours. Keep notifications on.
             </p>
             <button
               id="success-close-btn"
               type="button"
               onClick={handleResetAndClose}
-              className="px-6 py-2.5 rounded-full bg-[#00aff0] hover:bg-[#009fd9] text-black font-semibold text-sm transition-all shadow-[0_0_20px_rgba(0,175,240,0.4)] cursor-pointer"
+              className="btn-primary"
             >
-              DONE
+              Done
             </button>
           </div>
         ) : (
-          <div>
-            <div className="mb-5">
-              <span className="text-[11px] font-bold tracking-widest text-[#00aff0] uppercase block mb-1">
-                TYPHOON RECRUITMENT
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                APPLY AS A CHATTER
+          <div className="px-6 sm:px-8 py-7 sm:py-8">
+            <div className="mb-6 pr-8">
+              <span className="meta-label text-[#00aff0] block mb-2">Typhoon recruitment</span>
+              <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase tracking-wide">
+                Apply as a chatter
               </h2>
+              <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
+                Required fields marked. Incomplete applications are not reviewed.
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
-              <div>
-                <label
-                  htmlFor="chatter-name"
-                  className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1"
-                >
-                  Full Name <span className="text-[#00aff0]">*</span>
-                </label>
-                <input
-                  id="chatter-name"
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your full name"
-                  className="w-full px-4 py-2.5 bg-[#13161f] border border-white/10 rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-[#00aff0] focus:ring-1 focus:ring-[#00aff0] transition-colors"
-                />
+              <div className="grid sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label htmlFor="chatter-name" className="meta-label block mb-1.5">
+                    Full name <span className="text-[#00aff0]">*</span>
+                  </label>
+                  <input
+                    id="chatter-name"
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Legal or preferred name"
+                    className="input-field"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="chatter-email" className="meta-label block mb-1.5">
+                    Email <span className="text-[#00aff0]">*</span>
+                  </label>
+                  <input
+                    id="chatter-email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@email.com"
+                    className="input-field"
+                  />
+                </div>
               </div>
 
               <div>
-                <label
-                  htmlFor="chatter-email"
-                  className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1"
-                >
-                  Email <span className="text-[#00aff0]">*</span>
-                </label>
-                <input
-                  id="chatter-email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@gmail.com"
-                  className="w-full px-4 py-2.5 bg-[#13161f] border border-white/10 rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-[#00aff0] focus:ring-1 focus:ring-[#00aff0] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="chatter-telegram"
-                  className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1"
-                >
-                  Telegram / Discord Username <span className="text-[#00aff0]">*</span>
+                <label htmlFor="chatter-telegram" className="meta-label block mb-1.5">
+                  Telegram / Discord <span className="text-[#00aff0]">*</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono">
                     @
                   </span>
                   <input
@@ -165,26 +160,52 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                     required
                     value={telegram}
                     onChange={(e) => setTelegram(e.target.value)}
-                    placeholder="telegram_handle"
-                    className="w-full pl-8 pr-4 py-2.5 bg-[#13161f] border border-white/10 rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-[#00aff0] focus:ring-1 focus:ring-[#00aff0] transition-colors"
+                    placeholder="handle"
+                    className="input-field !pl-8"
+                  />
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label htmlFor="chatter-timezone" className="meta-label block mb-1.5">
+                    Timezone
+                  </label>
+                  <input
+                    id="chatter-timezone"
+                    type="text"
+                    value={timezone}
+                    onChange={(e) => setTimezone(e.target.value)}
+                    placeholder="e.g. UTC+8 / EST"
+                    className="input-field"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="chatter-hours" className="meta-label block mb-1.5">
+                    Weekly hours
+                  </label>
+                  <input
+                    id="chatter-hours"
+                    type="text"
+                    value={hours}
+                    onChange={(e) => setHours(e.target.value)}
+                    placeholder="e.g. 30 hrs, nights"
+                    className="input-field"
                   />
                 </div>
               </div>
 
               <div>
-                <label
-                  htmlFor="chatter-experience"
-                  className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1"
-                >
-                  Experience & Availability
+                <label htmlFor="chatter-experience" className="meta-label block mb-1.5">
+                  Experience & notes
                 </label>
                 <textarea
                   id="chatter-experience"
-                  rows={2}
+                  rows={3}
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  placeholder="Any prior chatting/sales experience, typing speed, and weekly hours available..."
-                  className="w-full px-4 py-2.5 bg-[#13161f] border border-white/10 rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-[#00aff0] focus:ring-1 focus:ring-[#00aff0] transition-colors resize-none"
+                  placeholder="Prior chatting/sales experience, typing speed, adult niche comfort, preferred shift windows…"
+                  className="input-field resize-none"
                 />
               </div>
 
@@ -193,21 +214,21 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                   id="send-request-btn"
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 px-6 rounded-xl bg-[#00aff0] hover:bg-[#15baff] active:scale-[0.99] text-black font-bold text-sm tracking-wider uppercase transition-all duration-150 flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(0,175,240,0.6)] cursor-pointer disabled:opacity-70"
+                  className="btn-primary w-full"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin text-black" />
-                      <span>PROCESSING...</span>
+                      <span>Processing…</span>
                     </>
                   ) : (
-                    <span>SUBMIT APPLICATION →</span>
+                    <span>Submit application →</span>
                   )}
                 </button>
               </div>
 
-              <p className="text-[11px] text-center text-zinc-500 tracking-wide pt-0.5">
-                100% remote worldwide • High commissions • Weekly payouts
+              <p className="meta-label text-center text-zinc-500 pt-1">
+                Response within 24h · Remote worldwide
               </p>
             </form>
           </div>

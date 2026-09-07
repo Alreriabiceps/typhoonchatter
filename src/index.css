@@ -1,12 +1,170 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ink: #08090b;
+  --ink-2: #0e1014;
+  --ink-3: #14171d;
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.22);
+  --muted: #9aa0ab;
+  --cyan: #00aff0;
+  --cyan-dim: rgba(0, 175, 240, 0.14);
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   color-scheme: dark;
+  font-family: var(--font-body);
 }
 
-html, body {
-  background-color: #0a0a0c;
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  background-color: var(--ink);
   color: #ffffff;
   overflow-x: hidden;
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center top;
+}
+
+#typhoon-app {
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.section-rule {
+  border-top: 1px solid var(--line);
+}
+
+.info-cell {
+  border: 1px solid var(--line);
+  background: rgba(14, 16, 20, 0.72);
+}
+
+.info-cell:hover {
+  border-color: rgba(0, 175, 240, 0.45);
+  background: rgba(0, 175, 240, 0.04);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: #0a0c10;
+  border: 1px solid var(--line);
+  color: #fff;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.input-field::placeholder {
+  color: #6b7280;
+}
+
+.input-field:focus {
+  border-color: var(--cyan);
+  background: #0c1016;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1.75rem;
+  background: var(--cyan);
+  color: #000;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: #1bb8f5;
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.1rem;
+  border: 1px solid var(--line-strong);
+  color: #e5e7eb;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--cyan);
+  color: #fff;
+  background: var(--cyan-dim);
+}
+
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: contrast(1.06) saturate(0.92) brightness(0.78);
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #08090b 0%, rgba(8, 9, 11, 0.92) 38%, rgba(8, 9, 11, 0.35) 68%, rgba(8, 9, 11, 0.15) 100%),
+    linear-gradient(180deg, rgba(8, 9, 11, 0.45) 0%, transparent 28%, transparent 62%, rgba(8, 9, 11, 0.85) 100%);
+}
+
+@media (max-width: 1023px) {
+  .hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(8, 9, 11, 0.25) 0%, rgba(8, 9, 11, 0.55) 42%, #08090b 78%);
+  }
 }
